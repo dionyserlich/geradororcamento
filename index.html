@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CE4MJ40WN"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-8CE4MJ40WN');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Orçamento para WhatsApp | Orçamento Rápido e Direto!</title>
+
+    <meta name="description" content="Crie e envie orçamentos personalizados diretamente pelo WhatsApp com o gerador de orçamentos prático e rápido. Ideal para serviços de prestação de contas, empresas e profissionais que precisaram gerar orçamentos e enviar por Whatsapp.">
+    <meta name="keywords" content="gerador de orçamentos, orçamentos WhatsApp, gerador de orçamentos em texto, personalização de orçamentos, orçamento rápido, vendas, atendimento ao cliente, orçamento rápido para whatsapp, orçamento para whatsapp, gerador de orçamento para whatsapp">
+    <meta name="author" content="Dionys Erlich">
+
+    <meta property="og:title" content="Gerador de Orçamentos para WhatsApp | Orçamentos com Agilidade">
+    <meta property="og:description" content="Facilite o processo de vendas com orçamentos personalizados via WhatsApp. Indicado para profissionais e empresas que precisam enviar orçamentos e resumos de pedidos por atendimento Whatsapp.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://geradororcamento.com.br">
+    <meta property="og:image" content="https://geradororcamento.com.br/img/imagem-og.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gerador de Orçamentos para WhatsApp | Farmácia de Manipulação e Produtos Personalizados">
+    <meta name="twitter:description" content="Gere e envie orçamentos personalizados pelo WhatsApp com praticidade. Ideal para profissionais e empresas que precisam enviar orçamentos e resumos de pedidos por atendimento Whatsapp.">
+    <meta name="twitter:image" content="https://geradororcamento.com.br/img/imagem-twitter.jpg">
+
+    <link rel="canonical" href="https://geradororcamento.com.br">
+
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="preload" href="css/style.css" as="style" onload="this.rel='stylesheet'">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header style="height: 68px; position: relative;">
+        <div style="position:relative; height: 188px;width: 100%;background-color: #009777;">
+            <nav class="flex" style="height: 68px;">
+                <a class="logo" href="/">
+                    <h1>Gerador de Orçamento para WhatsApp</h1>
+                    <sub>Gere orçamentos em texto, para enviar no WhatsApp, sem ficar fazendo cálculos dos itens do
+                        pedido.</sub>
+                </a>
+                <div class="links flex gap-2">
+
+
+                    <a href="/">Início</a>
+                    <a href="#">Ajuda</a>
+                    <a href="/changelog.html">Changelog</a>
+                    <a href="#">Contato</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="flex container">
+
+
+
+            <aside class="left">
+                <div style="text-align: center;display: flex;flex-direction: column;align-items: center;">
+                    <button class="toggle-btn" id="toggle-panel"></button>
+                    <button class="history-btn" id="toggle-panel-history"></button>
+                    <button class="smartphar-btn" id="toggle-panel-smartphar"></button>
+                    <button id="toggle-theme" class="toggle-theme" onclick="toggleTheme()"></button>
+                </div>
+            </aside>
+
+            <section style="max-height: calc(100vh - 88px);">
+                <div style="padding: 1.5rem; height: 120px;">
+                    <h2 id="titulo-section" style="margin-top: 0;">Novo Orçamento / Pedido</h2>
+                    <!-- Campo para escolher o tipo de resumo e ID -->
+
+                    <select style="height: 2rem;padding: 0rem 0.8rem;" autocomplete="off" id="tipoResumo"
+                        onchange="atualizarTexto()">
+                        <option value="Orçamento">Orçamento</option>
+                        <option value="Pedido">Pedido</option>
+                    </select>
+                    <input autocomplete="off" type="text" id="idResumo" placeholder="ID do Resumo:"
+                        oninput="atualizarTexto()" style="height: 2rem;padding: 0rem 0.8rem;">
+                    <button id="salvarResumo" onclick="salvarResumo()" class="outline-btn"
+                        style="color: #008069; border-color: #008069; height: 2rem;">Salvar</button>
+                </div>
+
+                <div
+                    style="overflow-y: scroll; scrollbar-width: thin; max-height: calc(100vh - 208px); padding: 0 1.5rem 1.5rem 1.5rem;">
+
+                    <div class="sidebar" id="payment-panel">
+                        <h2>
+                            <label for="">Configurar Formas de Pagamento:</label>
+                            <button class="close-btn" id="close-panel">Fechar</button>
+                        </h2>
+
+                        <div class="payment-option">
+                            <input autocomplete="off" type="checkbox" id="cartao-credito" checked
+                                onchange="atualizarTexto()">
+                            <label>Cartão de Crédito</label><br>
+
+                            Acrescimo no valor total:
+                            <input autocomplete="off" type="number" id="acrescimo-pg-cartao" value="0" min="0"
+                                step="0.01" oninput="atualizarTexto()">
+                            <select autocomplete="off" onchange="atualizarTexto()">
+                                <option>Porcentagem (%)</option>
+                                <option>Valor Fixo (R$)</option>
+                            </select><br>
+                            Desconto no valor total:
+                            <input autocomplete="off" type="number" id="desconto-pg-cartao" step="0.01" value="0"
+                                min="0" oninput="atualizarTexto()">
+                            <select autocomplete="off" onchange="atualizarTexto()">
+                                <option>Porcentagem (%)</option>
+                                <option>Valor Fixo (R$)</option>
+                            </select><br>
+                            Parcelamento em até
+                            <input autocomplete="off" type="number" value="12" min="1" id="max-parcelas-total"
+                                oninput="atualizarTexto()">
+                            vezes<br>
+                            Parcelamento sem juros em até
+                            <input autocomplete="off" type="number" value="1" min="1" id="max-parcelas-sem-juros"
+                                oninput="atualizarTexto()">
+                            vezes<br>
+                            Valor mínimo da parcela:
+                            <input autocomplete="off" type="number" step="0.01" value="1" min="0.01"
+                                id="valor-min-parcela" oninput="atualizarTexto()">
+                        </div>
+
+                        <div class="payment-option">
+                            <label>À vista</label><br>
+                            <input autocomplete="off" type="checkbox" id="pix-a-vista" checked
+                                onchange="atualizarTexto()">
+                            <label>Pix</label>
+                            <input autocomplete="off" type="checkbox" id="boleto-a-vista" checked
+                                onchange="atualizarTexto()">
+                            <label>Boleto</label>
+                            <input autocomplete="off" type="checkbox" id="Dinheiro-a-vista" onchange="atualizarTexto()">
+                            <label>Dinheiro</label><br>
+                            Desconto no valor total:
+                            <input autocomplete="off" type="number" step="0.01" id="desconto-a-vista"
+                                oninput="atualizarTexto()">
+                            <select autocomplete="off" id="tipo-desconto-a-vista" onchange="atualizarTexto()">
+                                <option>Porcentagem (%)</option>
+                                <option>Valor Fixo (R$)</option>
+                            </select>
+                        </div>
+
+                        <div class="payment-option">
+                            <label>
+                                <input autocomplete="off" type="checkbox"> Outros
+                            </label><br>
+                            Outra forma de pagamento (em fase de testes):
+                            <input autocomplete="off" type="text" oninput="atualizarTexto()"><br>
+                            Acrescimo no valor total:
+                            <input autocomplete="off" type="number" step="0.01" oninput="atualizarTexto()">
+                            <select autocomplete="off" onchange="atualizarTexto()">
+                                <option>Porcentagem (%)</option>
+                                <option>Valor Fixo (R$)</option>
+                            </select><br>
+                            Desconto no valor total:
+                            <input autocomplete="off" type="number" step="0.01" oninput="atualizarTexto()">
+                            <select autocomplete="off" onchange="atualizarTexto()">
+                                <option>Porcentagem (%)</option>
+                                <option>Valor Fixo (R$)</option>
+                            </select>
+                        </div>
+
+                        <button class="set-default-btn" onclick="salvarComoPadrao()">Definir como padrão</button>
+                    </div>
+
+
+                    <div class="sidebar" id="panelHistory">
+                        <h2>
+                            Histórico:
+                            <button class="close-btn" id="close-panel-history">Fechar</button>
+                        </h2>
+                        <div id="painelResumos">
+                            <ul id="listaResumos"></ul>
+                        </div>
+                    </div>
+                    <div class="sidebar" id="panel-smartphar" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <h2>
+                            Carregar orçamento Smartphar:
+                            <button class="close-btn" id="close-panel-smartphar">Fechar</button>
+                        </h2>
+                        <textarea id="orcamento-smartphar" style="flex-basis: 100%;width: 100%;scrollbar-width: thin;"
+                            placeholder="Insira o texto do orçamento aqui..."></textarea>
+                        <button onclick="carregarOrcamentoSmartpharParaCampos()"
+                            style="color: #ffffff;border-color: #008069;background: #008069; height: 2.5rem;"
+                            class="outline-btn">Carregar Orçamento</button>
+                        <p>Esta é uma funcionalidade exclusiva para formatar o orçamento gerado pelo sistema Smartphar
+                            da
+                            Siacom (Sistema para farmácias de manipulação).</p>
+                    </div>
+
+
+
+                    <div>
+
+
+                    </div>
+                    <div id="produtos">
+                        <!-- Produto 1 -->
+                        <div class="produto" id="produto_1" tabindex="0">
+                            <h3 class="input-group quebra-linha" style="margin: 0; font-size: 12pt;">Produto 1</h3>
+                            <div class="input-container" style="flex-grow: 0;">
+                                <div style="max-width: 5rem;" class="input-group">
+                                    <label>Valor (R$):</label>
+                                    <input autocomplete="off" type="number" id="valorUnitario_1"
+                                        oninput="atualizarTexto()" step="0.01">
+                                </div>
+                                <div class="input-group" style="flex-direction: row; line-height: normal;">
+                                    <label style="display: flex; align-items: center;"><input autocomplete="off"
+                                            type="checkbox" id="multiplicar_1" checked onchange="atualizarTexto()">
+                                        Multiplicar pela quantidade</label>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <div class="input-group" style="max-width: 4rem;">
+                                    <label>Quantidade:</label>
+                                    <input autocomplete="off" type="number" id="quantidade_1" min="1" value="1"
+                                        oninput="atualizarTexto()">
+                                </div>
+                                <div class="input-group">
+                                    <label>Descrição Unitária:</label>
+                                    <select autocomplete="off" id="designacaoUnitaria_1" onchange="atualizarTexto()">
+                                        <option value="un">un</option>
+                                        <option value="cx">cx</option>
+                                        <option value="kit">kit</option>
+                                        <option value="fr">fr</option>
+                                        <option value="pote">pote</option>
+                                        <option value="pct">pct</option>
+                                        <option value="bisnaga">bisnaga</option>
+                                        <option value="kg">kg</option>
+                                        <option value="g">g</option>
+                                        <option value="mg">mg</option>
+                                        <option value="L">L</option>
+                                        <option value="ml">ml</option>
+                                        <option value="ton">ton</option>
+                                        <option value="cp">cp</option>
+                                        <option value="dose">dose</option>
+                                        <option value="pç">pç</option>
+                                        <option value="fardo">fardo</option>
+                                        <option value="sache">sache</option>
+                                        <option value="palet">palet</option>
+                                        <option value="mão de obra">mão de obra</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <div class="input-group" style="max-width: 5rem;">
+                                    <label>Subquantidades:</label>
+                                    <input autocomplete="off" type="number" id="subquantidade_1"
+                                        oninput="atualizarTexto()">
+                                </div>
+
+                                <div class="input-group">
+                                    <label>Desc. Unit. Subquantidades:</label>
+                                    <select autocomplete="off" id="designacaoSub_1" onchange="atualizarTexto()">
+                                        <option value="">Selecione</option>
+                                        <option value="un">un</option>
+                                        <option value="cx">cx</option>
+                                        <option value="kits">kit</option>
+                                        <option value="fr">fr</option>
+                                        <option value="potes">pote</option>
+                                        <option value="pct">pct</option>
+                                        <option value="kg">kg</option>
+                                        <option value="g">g</option>
+                                        <option value="mg">mg</option>
+                                        <option value="L">L</option>
+                                        <option value="ml">ml</option>
+                                        <option value="ton">ton</option>
+                                        <option value="cp">cp</option>
+                                        <option value="cápsulas">cápsulas</option>
+                                        <option value="doses">doses</option>
+                                        <option value="pçs">pç</option>
+                                        <option value="fardos">fardos</option>
+                                        <option value="saches">saches</option>
+                                        <option value="palet">palet</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div id="doseFields_1" class="oculto input-group" style="display: none;">
+                                <label>1 dose = </label>
+                                <input autocomplete="off" style="max-width: 4rem;" type="text" value="2"
+                                    id="nQuantDose_1" oninput="atualizarTexto()">
+                                <select autocomplete="off" id="quantidadeParaADose_1" onchange="atualizarTexto()">
+                                    <option value="cápsulas">cápsulas</option>
+                                    <option value="cápsula">cápsula</option>
+                                    <option value="dosador">dosador</option>
+                                    <option value="dosadores">dosadores</option>
+                                    <option value="grama">grama</option>
+                                    <option value="gramas">gramas</option>
+                                    <option value="pump">pump</option>
+                                    <option value="gota">gota</option>
+                                    <option value="gotas">gotas</option>
+                                </select>
+                            </div>
+
+
+                            <div class="input-group">
+                                <input placeholder="Nome do Produto" autocomplete="off" style="width: 100%;" type="text"
+                                    id="nomeProduto_1" oninput="atualizarTexto()">
+                            </div>
+
+
+                            <label style="display: flex;align-items: center; flex-basis: 100%;"><input
+                                    autocomplete="off" type="checkbox" id="obsCheckbox_1"
+                                    onchange="toggleObservacao(1)">Observações</label>
+
+
+                            <div id="observacaoDiv_1" class="oculto">
+                                <label style="display: inline;">Estilo da observação:</label>
+                                <input autocomplete="off" type="radio" id="simboloMaior" name="simbolo" value=">">
+                                <label style="display: inline;" for="simboloMaior">Citação</label>
+                                <input autocomplete="off" type="radio" id="simboloAsterisco" name="simbolo" value="*"
+                                    checked>
+                                <label style="display: inline;" for="simboloAsterisco">Lista</label><br>
+                                <label>Observações:</label>
+                                <textarea style="width: 100%; height: 7rem;" autocomplete="off" id="observacao_1"
+                                    oninput="atualizarTexto()"></textarea>
+                            </div>
+                            <div class="input-group quebra-linha" style="flex-direction: row;align-items: center;">
+                                <p><strong>Subtotal:</strong> <span id="subtotal_1">R$ 0,00</span></p>
+                                <button class="outline-btn" onclick="removerProduto(1)">Remover Produto</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <button style="color: #ffffff;border: 0;height: 2rem;background: #008069;" class="outline-btn"
+                        onclick="adicionarProduto()">Adicionar mais um produto</button>
+
+                    <div class="descontos">
+                        <h2>Descontos:</h2>
+                        <label for="valorDesconto">Valor do Desconto:</label>
+                        <input autocomplete="off" type="number" id="valorDesconto" oninput="atualizarTexto()"
+                            step="0.01">
+
+                        <label for="tipoDesconto">Tipo de Desconto:</label>
+                        <select autocomplete="off" id="tipoDesconto" onchange="atualizarTexto()">
+                            <option value="fixo">Valor Fixo (R$)</option>
+                            <option value="percentual">Porcentagem (%)</option>
+                        </select><br>
+
+                        <label><input autocomplete="off" type="checkbox" id="descQuant" onchange="toggleDescQuant(1)">
+                            Desconto por quantidade (em fase de testes)</label>
+                        <div id="descQuantDiv" class="oculto">
+                            <div class="descQuant_1">
+                                <label>Quantidade de produtos para aplicar este desconto:</label>
+                                <input autocomplete="off" type="number" value="2" class="quantidade-desc_1">
+                                <label>Valor do desconto (R$):</label>
+                                <input autocomplete="off" type="number" value="10.00" class="valor-desc_1">
+                                <button onclick="removerDescQuant(1)">Remover</button>
+                            </div>
+
+                            <div class="descQuant_2">
+                                <label>Quantidade de produtos para aplicar este desconto:</label>
+                                <input autocomplete="off" type="number" value="4" class="quantidade-desc_2">
+                                <label>Valor do desconto (R$):</label>
+                                <input autocomplete="off" type="number" value="20.00" class="valor-desc_2">
+                                <button onclick="removerDescQuant(2)">Remover</button>
+                            </div>
+                            <div class="descQuant_3">
+                                <label>Quantidade de produtos para aplicar este desconto:</label>
+                                <input autocomplete="off" type="number" value="7" class="quantidade-desc_3">
+                                <label>Valor do desconto (R$):</label>
+                                <input autocomplete="off" type="number" value="30.00" class="valor-desc_3">
+                                <button onclick="removerDescQuant(3)">Remover</button>
+                            </div>
+                            <div class="descQuant_4">
+                                <label>Quantidade de produtos para aplicar este desconto:</label>
+                                <input autocomplete="off" type="number" value="10" class="quantidade-desc_4">
+                                <label>Valor do desconto (R$):</label>
+                                <input autocomplete="off" type="number" value="50.00" class="valor-desc_4">
+                                <button onclick="removerDescQuant(4)">Remover</button>
+                            </div>
+                            <button onclick="adicionarDescQuant()">Adicionar mais um desconto</button>
+                        </div>
+                    </div>
+
+                    <div class="taxa-entrega">
+                        <h2>Taxa de Entrega:</h2>
+                        <input autocomplete="off" type="number" id="valorTaxa" oninput="atualizarTexto()" step="0.01"
+                            min="0" placeholder="Valor (R$)" style="max-width: 6rem;">
+                        <select autocomplete="off" id="tipoTaxa" onchange="atualizarTexto()">
+                            <option value="fixo">Valor Fixo (R$)</option>
+                            <option value="percentual">Porcentagem (%)</option>
+                        </select>
+                        <select autocomplete="off" id="modalidade" onchange="atualizarTexto()">
+                            <option value="selecione">Modalidade</option>
+                            <option value="Jadlog Expresso">Jadlog Expresso</option>
+                            <option value="Jadlog Normal">Jadlog Normal</option>
+                            <option value="Correios PAC">Correios PAC</option>
+                            <option value="Correios SEDEX">Correios SEDEX</option>
+                        </select>
+                        <input autocomplete="off" placeholder="Outra modalidade" type="text" id="outraModalidade"
+                            oninput="atualizarTexto()"><br>
+                        <input autocomplete="off" type="number" placeholder="Prazo de entrega inicial"
+                            id="prazoEntrInicial" oninput="atualizarTexto()" min="0">
+                        <input autocomplete="off" type="number" placeholder="Prazo de entrega final" id="prazoEntrFinal"
+                            oninput="atualizarTexto()" min="0">
+                    </div>
+
+                </div>
+            </section>
+            <aside class="right">
+                <h2 style="margin: 0;padding: 1.1rem;font-size: 12pt;">Texto Gerado:
+                </h2>
+                <div class="painel-direito">
+
+                    <div class="texto-final">
+
+
+
+                        <sub style="line-height: 0;">Os * (asteriscos) não aparecem depois que a mensagem é enviada na
+                            conversa.
+                            Eles servem apenas para marcar os valores como negrito enquanto está digitando. Não os
+                            apague.
+                        </sub>
+                        <br>
+                        <br>
+
+
+                        <div class="text-area-texto-gerado">
+                            <textarea
+                                style="font:inherit;color:#111b21;margin-top: 0; width: 100%;resize: none; border:0; border-radius: 0 7px 7px 7px; padding: 9px 9px 19px 9px; margin-left:8px; box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05); scrollbar-width: none; width: calc(100% - 16px);"
+                                autocomplete="off" id="textoFinal"></textarea>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div style="padding: 1.2rem;" class="bottom-right">
+                    <button id="copyButton" onclick="copiarTexto()" style="color: #008069; border-color: #008069;"
+                        class="outline-btn">Copiar Texto</button>
+                    <button onclick="compartilharWhatsApp()"
+                        style="color: #ffffff;border-color: #008069;background: #008069;" class="outline-btn">Enviar no
+                        Whats</button>
+
+                </div>
+            </aside>
+        </div>
+        <div class="container flex"
+            style="margin-top: 60px; box-shadow: none; padding: 2rem; font-size: 12pt; line-height: 1.5;">
+            <section id="sobre-o-site" class="content-section">
+                <h2>Gere Orçamentos em texto para WhatsApp</h2>
+
+                <p>Facilite seu dia a dia criando orçamentos detalhados para enviar diretamente no WhatsApp. Não perca
+                    tempo somando valores, aplicando descontos ou ajustando a formatação de cada orçamento/resumo de
+                    pedido. Em poucos passos, você configura suas formas de pagamentos, insere os produtos, descontos e
+                    taxas, e o sistema faz o restante para você.</p>
+
+                <h3>Como usar o Gerador de Orçamentos</h3>
+                <p>Siga esses passos para criar e enviar orçamentos de maneira ágil e prática:</p>
+
+                <ol>
+                    <li>Preencha os detalhes do(s) produto(s), incluindo valor, quantidade, e se preferir, adicione
+                        detalhes como subquantidades (quantas unidades vem dentro do produto), descrição e observações.
+                    </li>
+                    <li>Opcionalmente, adicione o desconto e informe o tipo do desconto (se é um valor fixo ou
+                        porcentagem).</li>
+                    <li>Também opcionalmente, adicione a taxa de entrega, informando o valor (deixe R$ 0, para envio
+                        grátis), modalidade e prazo de entrega.</li>
+                    <li>Não esqueça de configurar suas formas de pagamento, clicando no botão de engrenagem, o primeiro
+                        ícone na barrinha vertical cinza, na esquerda da tela.</li>
+                    <li>Visualize o resumo automaticamente formatado e pronto para copiar no lado direito da tela.</li>
+                    <li>Envie o orçamento diretamente para o WhatsApp, garantindo que o cliente receba uma cotação
+                        completa e clara.</li>
+                </ol>
+
+                <p>Acesse a <!--<a href="/ajuda.html">-->página de ajuda (em breve)<!--</a>--> se quiser saber em
+                    detalhes como utilizar o gerador.</p>
+                <p>Experimente este gerador e veja como ele pode simplificar seu fluxo de trabalho, além de ajudar a
+                    evitar erros em cálculos de somatórias e descontos. O resultado final é um orçamento claro e
+                    detalhado, gerado rapidamente e pronto para o WhatsApp!</p>
+
+
+                <h3>Por que usar este sistema?</h3>
+                <p>Se você é um profissional ou empresa que precisa enviar cotações/orçamentos por WhatsApp, este
+                    gerador é a ferramenta ideal para otimizar o processo. Vantagens:</p>
+
+                <ul>
+                    <li><strong>Automatização de Cálculos:</strong> o sistema realiza automaticamente a somatória dos
+                        produtos, taxa de entrega, calcula os descontos/acréscimos, e gera o subtotal considerando
+                        pagamento parcelado ou a vista, eliminando erros de cálculo e economizando tempo.</li>
+                    <li><strong>Personalização Simples:</strong> você pode personalizar todos os detalhes do pedido,
+                        como descrição completa de cada produto, descontos específicos, taxa de entrega, e formas de
+                        pagamento. Tudo é organizado de forma clara e direta.</li>
+                    <li><strong>Economia de Tempo:</strong> com o gerador de orçamentos, você evita fazer cálculos
+                        manuais. Basta preencher os campos, e o texto formatado fica pronto para enviar no WhatsApp em
+                        segundos.</li>
+                    <li><strong>Visual Profissional:</strong> os orçamentos gerados são apresentados de forma
+                        organizada, com todos os itens, valores e descontos claramente listados, o que contribui para um
+                        aspecto profissional e padronizado no atendimento ao cliente.</li>
+                </ul>
+
+                <h3>Por que evitar o envio de PDFs e imagens de orçamentos/resumos de pedidos</h3>
+                <p>Muitos profissionais enviam orçamentos em PDF ou imagens, mas essa prática pode sobrecarregar o
+                    dispositivo do cliente com arquivos grandes e, em alguns casos, difíceis de visualizar. Em vez
+                    disso, enviar o orçamento em formato de texto no WhatsApp é uma opção mais prática e eficiente.</p>
+
+                <p>O envio de textos evita o armazenamento de arquivos desnecessários no dispositivo do cliente,
+                    facilitando a leitura e uma posterior busca nas mensagens. O cliente pode ler o orçamento
+                    rapidamente, sem precisar abrir aplicativos secundários ou esperar o carregamento de arquivos,
+                    tornando a experiência muito mais leve e agradável.</p>
+
+                <h4>Comece Agora</h4>
+                <p>Economize tempo e esforço na criação de cotações para seus clientes. Ganhe praticidade no envio de
+                    orçamentos e mantenha a comunicação sempre profissional.</p>
+
+            </section>
+
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 Gerador de Orçamentos para WhatsApp.</p>
+            <p>Desenvolvido por Dionys Erlich.</p>
+
+            <div class="social-links">
+                <a href="https://www.instagram.com/dionyserlich" target="_blank">Instagram</a> |
+                <a href="https://www.linkedin.com/in/dionyserlich" target="_blank">LinkedIn</a>
+            </div>
+
+            <div class="contact-info">
+                <p>Email: <a href="mailto:dionyserlich@gmail.com">dionyserlich@gmail.com</a></p>
+                <p>WhatsApp: <a href="https://wa.me/5544999625033" target="_blank">+55 (44) 99962-5033</a></p>
+            </div>
+
+            <div class="related-sites">
+                <p>Precisa Gerar DANFE simplificado (NFe etiqueta)? <a href="https://geradordanfe.com.br/" target="_blank">Gerador de DANFE simplificado</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script-min.js"></script>
+</body>
+
+</html>
